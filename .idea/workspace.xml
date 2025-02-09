@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/arm-hc.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pingloop.cpp" afterDir="false" />
+    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack">
+      <change afterPath="$PROJECT_DIR$/img/CRC ERROR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/STOP_BYTE ERROR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/img.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pingloop.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/pingloop.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pingloop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pingloop.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +38,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.test-ping_count.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
@@ -66,11 +66,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1739062471399</updated>
-      <workItem from="1739062473283" duration="11402000" />
+      <workItem from="1739062473283" duration="24797000" />
     </task>
+    <task id="LOCAL-00001" summary="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack">
+      <option name="closed" value="true" />
+      <created>1739109860959</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739109860959</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack" />
+    <option name="LAST_COMMIT_MESSAGE" value="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/arm_hc$test_ping_count.coverage" NAME="test-ping_count Coverage Results" MODIFIED="1739127194049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
   </component>
 </project>

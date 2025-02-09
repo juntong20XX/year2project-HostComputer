@@ -7,8 +7,10 @@
 
 #include "SerialTransfer.h"
 
-#include "main.hpp"
 
+#ifdef arm180nanoatmega328new
+char TYPE_CODE[] = "a1nn";
+#endif
 #define LED_PIN 13
 
 bool LED_IS_ON = true;
@@ -65,12 +67,12 @@ int ping_func() {
     return 0;
 }
 
-int ping_res_chk(STRUCT_Message * msg) {
-    if (msg->msg_type != 0x0001) {
+int ping_res_chk(const STRUCT_Message& msg) {
+    if (msg.msg_type != 0x0001) {
         return -1;
     }
     for (int i=0; i < 4; i++) {
-        if (((int) msg->data[i]) != 0) {
+        if (((int) msg.data[i]) != 0) {
             return -1;
         }
     }
@@ -86,9 +88,9 @@ int ping() {
         return -1;
     }
 
-    stf.rxObj(&Message, 8);
+    stf.rxObj(Message, 0);
 
-    return ping_res_chk(&Message);
+    return ping_res_chk(Message);
 }
 
 void loop() {
@@ -98,14 +100,4 @@ void loop() {
         led_off();
         delay(500);
     }
-
-    // if (stf.available()) {
-    //     stf.rxObj(&Message, 8);
-
-    //     Serial.println("Hello:");
-    //     Serial.println(Message.msg_type);
-    //     Serial.println(Message.data);
-    //     led_off();
-    // }
-    // delay(500);
 }

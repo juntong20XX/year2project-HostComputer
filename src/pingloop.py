@@ -11,7 +11,6 @@ def check_ping(s: stf.SerialTransfer):
         return s.status
     msg_type: int = s.rx_obj(obj_type='i', start_pos=0)
     data: str = s.rx_obj(obj_type=str, start_pos=4, obj_byte_size=4)
-    # XXXX: skip check
     return msg_type == 0x01 and data == "a1nn"
 
 
@@ -27,8 +26,9 @@ if __name__ == '__main__':
     try:
         link.open()
         while True:
-            print(time.time(), check_ping(link))
-            send_ack(link)
-            time.sleep(1)
+            res = check_ping(link)
+            if res is True:
+                send_ack(link)
+            time.sleep(0.5)
     finally:
         link.close()
