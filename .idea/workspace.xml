@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="归档一下, 现在整个 ping 的流程没啥问题.">
+    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="暂存">
       <change afterPath="$PROJECT_DIR$/src/commander.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test-cmd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pingloop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pingloop.py" afterDir="false" />
@@ -65,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1739062471399</updated>
       <workItem from="1739062473283" duration="37752000" />
-      <workItem from="1739314789060" duration="3971000" />
+      <workItem from="1739314789060" duration="4589000" />
     </task>
     <task id="LOCAL-00001" summary="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack">
       <option name="closed" value="true" />
@@ -92,7 +93,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack" />
     <MESSAGE value="归档一下, 现在整个 ping 的流程没啥问题." />
-    <option name="LAST_COMMIT_MESSAGE" value="归档一下, 现在整个 ping 的流程没啥问题." />
+    <MESSAGE value="暂存" />
+    <option name="LAST_COMMIT_MESSAGE" value="暂存" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/arm_hc$test_ping_count.coverage" NAME="test-ping_count Coverage Results" MODIFIED="1739127194049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
