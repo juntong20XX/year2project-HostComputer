@@ -41,6 +41,21 @@ def command(s: stf.SerialTransfer, code: int, target, wait_times=3) -> bool:
     tx_size = s.tx_obj(0x0012, tx_size)
     tx_size = s.tx_obj(0, tx_size)
     s.send(tx_size)
+    # 等待执行结果
+    t = time.time()
+    while time.time() - t < 0.3 * wait_times:
+        time.sleep(0.2)
+        if not s.available():
+            continue
+        msg_type: int = s.rx_obj(obj_type='i', start_pos=0)
+        data: ty = s.rx_obj(obj_type=ty, start_pos=4, obj_byte_size=4)
+        if msg_type == 0x0014:
+            # 执行成功
+            return True
+        else:
+            # 执行失败的代码是 0x0013 XXX: 应该有收到未知代码的解决方案
+            return False
+    # 超时喽
     return False
 
 

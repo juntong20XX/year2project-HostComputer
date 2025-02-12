@@ -30,16 +30,21 @@ def match_and_call(s: stf.SerialTransfer, command_list: list[(int, str)]):
         case 0x0001:
             # ping
             pingloop.ping_call(msg_type, data, s)
-            time.sleep(0.5)
+            time.sleep(0.3)
         case 0x0011:
             # wait
             if not command_list:
-                # 指令列表为空, 保持状态不动
-                msg_type = 0x0020
-                data = ""
+                # 指令列表为空, 直接成功
+                return True
             else:
-                msg_type, data = command_list.pop()
-            commander
+                msg_type, data = command_list.pop(0)
+                # 发送指令
+                success = commander.command(s, msg_type, data)
+                if success is True:
+                    return True
+                elif success is False:
+                    # 失败
+                    command_list.insert(0, (msg_type, data))
 
 
 def main(command_list: list[(int, str)], serial_path='/dev/ttyACM0'):

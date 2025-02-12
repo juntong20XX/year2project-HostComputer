@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="暂存">
-      <change afterPath="$PROJECT_DIR$/src/commander.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test-cmd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pingloop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pingloop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commander.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/commander.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1739062471399</updated>
       <workItem from="1739062473283" duration="37752000" />
-      <workItem from="1739314789060" duration="4589000" />
+      <workItem from="1739314789060" duration="5435000" />
     </task>
     <task id="LOCAL-00001" summary="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack">
       <option name="closed" value="true" />
@@ -84,7 +82,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739127594131</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="暂存">
+      <option name="closed" value="true" />
+      <created>1739382431748</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739382431748</updated>
+    </task>
+    <task id="LOCAL-00004" summary="暂存">
+      <option name="closed" value="true" />
+      <created>1739382461411</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739382461411</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
