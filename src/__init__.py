@@ -21,7 +21,7 @@ def match_and_call(s: stf.SerialTransfer, command_list: list[(int, str)], debug=
     获取输入, 然后根据输入
     :param s: SerialTransfer
     :param command_list:
-    :param debug: 
+    :param debug:
     :return:
     """
     if not (msg := get_msg(s)):
@@ -61,8 +61,12 @@ def match_and_call(s: stf.SerialTransfer, command_list: list[(int, str)], debug=
 def main(command_list: list[(int, str)], serial_path='/dev/ttyACM0', debug=False):
     link = stf.SerialTransfer(serial_path)
     try:
+        if debug:
+            print(time.time(), "main: opening serial port", serial_path)
         link.open()
         while True:
             match_and_call(link, command_list, debug=debug)
     finally:
+        if debug:
+            print(time.time(), "main: exit")
         link.close()

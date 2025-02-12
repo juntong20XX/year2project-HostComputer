@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     command_list = []
 
-    thread = Thread(target=main, args=(command_list, path), daemon=True)
+    thread = Thread(target=main, args=(command_list, path), kwargs={"debug": True}, daemon=True)
 
     thread.start()
 
