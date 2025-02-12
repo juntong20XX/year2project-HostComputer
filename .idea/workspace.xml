@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="应该是 OK 了，准备测试">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="写了用于测试的 __main__.py 准备测试">
+      <change beforePath="$PROJECT_DIR$/src/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__main__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +22,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "juntong20XX"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:juntong20XX/year2project-HostComputer.git",
+    "accountId": "4406a914-a656-4ca8-8a1e-63c9c06c6280"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -62,7 +74,7 @@
       <option name="presentableId" value="Default" />
       <updated>1739062471399</updated>
       <workItem from="1739062473283" duration="37752000" />
-      <workItem from="1739314789060" duration="13685000" />
+      <workItem from="1739314789060" duration="13948000" />
     </task>
     <task id="LOCAL-00001" summary="归档一下, 现在 arduino 能发出正确的 ping 但收不到正确的 ack">
       <option name="closed" value="true" />
@@ -104,7 +116,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739383588938</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="写了用于测试的 __main__.py 准备测试">
+      <option name="closed" value="true" />
+      <created>1739400377505</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1739400377505</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,7 +135,8 @@
     <MESSAGE value="归档一下, 现在整个 ping 的流程没啥问题." />
     <MESSAGE value="暂存" />
     <MESSAGE value="应该是 OK 了，准备测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="应该是 OK 了，准备测试" />
+    <MESSAGE value="写了用于测试的 __main__.py 准备测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="写了用于测试的 __main__.py 准备测试" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/arm_hc$test_ping_count.coverage" NAME="test-ping_count Coverage Results" MODIFIED="1739127194049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
