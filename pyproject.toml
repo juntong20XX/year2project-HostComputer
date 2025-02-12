@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "serial-commander"
-version = "0.0.1-alpha"
+version = "v0.0.1"
 description = "year 2 project 上位机代码"
 requires-python = ">=3.10"
 dependencies = [
