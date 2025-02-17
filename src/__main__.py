@@ -2,9 +2,7 @@
 
 """
 
-from . import main
-
-from threading import Thread
+from . import start_server_daemon, SerialClient
 
 
 if __name__ == '__main__':
@@ -14,19 +12,23 @@ if __name__ == '__main__':
     if not path:
         path = "/dev/ttyACM0"
 
-    command_list = []
+    # 创建并启动服务器
+    server = start_server_daemon(serial_path=path, debug=True)
 
-    thread = Thread(target=main, args=(command_list, path), kwargs={"debug": True}, daemon=True)
+    # 创建客户端
+    client = SerialClient()
 
-    thread.start()
-
-    while thread.is_alive():
-        deg = input("a number for moving the servo, other for exit:")
-        if deg.isdigit():
-            print("update:", deg)
-            command_list.append((0x0131, int(deg)))
-        else:
-            print("exit")
-            exit(0)
-    else:
-        print("threading stopped")
+    try:
+        while True:
+            deg = input("a number for moving the servo, other for exit:")
+            if deg.isdigit():
+                print("update:", deg)
+                client.add_command(0x0131, int(deg))
+            else:
+                print("exit")
+                server.stop()
+                exit(0)
+    except KeyboardInterrupt:
+        server.stop()
+        print("server stopped")
+        exit(0)
