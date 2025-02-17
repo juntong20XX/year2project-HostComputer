@@ -6,7 +6,7 @@ from pySerialTransfer import pySerialTransfer as stf
 import time
 
 
-def command(s: stf.SerialTransfer, code: int, target, wait_times=3, debug=False) -> bool:
+def command(s: stf.SerialTransfer, code: int, target, wait_times=3, debug=False, result=None) -> bool:
     """
     发送指令并检查回放
     :param s:
@@ -14,6 +14,7 @@ def command(s: stf.SerialTransfer, code: int, target, wait_times=3, debug=False)
     :param target:
     :param debug:  是否打印调试信息
     :param wait_times: 回放等待重试次数
+    :param result: 若非 None 则调用其 append 方法记录执行结果
     :return:
     """
     # 发送指令
@@ -64,6 +65,8 @@ def command(s: stf.SerialTransfer, code: int, target, wait_times=3, debug=False)
             continue
         msg_type: int = s.rx_obj(obj_type='i', start_pos=0)
         data: ty = s.rx_obj(obj_type=ty, start_pos=4, obj_byte_size=4)
+        if result is not None:
+            result.append((msg_type, data))
         if msg_type == 0x0014:
             # 执行成功
             if debug:
@@ -92,3 +95,18 @@ def servo_move(s: stf.SerialTransfer, target: int, debug=False) -> bool:
     """
     assert 0 <= target <= 180, ValueError('target must be between 0 and 180, get', target)
     return command(s, 0x0131, target, debug=debug)
+
+
+def servo_get_angle(s: stf.SerialTransfer, debug=False) -> bool | int:
+    """
+    获取舵机当前角度
+    指令代码是 0x0130
+    :param s: SerialTransfer 实例
+    :param debug: 是否开启调试模式
+    :return: bool 成功或失败, int 舵机角度
+    """
+    result = []
+    if command(s, 0x0130, 0, debug=debug, result=result):
+        return result[-1][1]
+    return False
+
