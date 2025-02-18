@@ -182,10 +182,9 @@ def main(command_list: list[(int, str)], serial_path='/dev/ttyACM0', debug=False
         link.close()
 
 
-def serial_automatic_detection(last=None) -> set[Path]:
+def serial_automatic_detection() -> set[str]:
     """
 
-    :param last:
     :return:
     """
     ret = set()
@@ -194,22 +193,56 @@ def serial_automatic_detection(last=None) -> set[Path]:
     for serial in serials:
         p = serial_byid / serial
         if p.is_symlink():
-            ret.add(p / os.readlink(p))
-    if last is not None:
-        return ret - last
+            ret.add(os.path.abspath(serial_byid / os.readlink(p)))
     return ret
 
 
 class SerialServer:
-    """串口服务器，管理串口通信线程和命令列表"""
+    """串口服务器，管理多个串口通信线程和命令列表"""
 
-    def __init__(self, socket_path="/tmp/serial_commander.sock", serial_path="/dev/ttyACM0", debug=False):
+    def __init__(self, socket_path="/tmp/serial_commander.sock", debug=False):
         self.socket_path = socket_path
-        self.serial_path = serial_path
         self.debug = debug
-        self.command_list = []
-        self._thread = None
+        # 存储每个串口的命令列表和线程
+        self.serial_threads = {}  # {serial_path: (thread, command_list)}
         self._sock = None
+        self._detection_thread = None
+        self._last_serials = set()
+
+    def _detect_new_serials(self):
+        """检测新的串口设备并启动对应的通信线程，同时关闭已移除的串口"""
+        while True:
+            current_serials = serial_automatic_detection()
+            
+            # 处理新增的串口
+            if new_serials := current_serials - self._last_serials:
+                if self.debug:
+                    print(time.time(), "检测到新串口设备:", new_serials)
+                for serial_path in new_serials:
+                    # 为每个新串口创建命令列表和线程
+                    command_list = []
+                    thread = Thread(
+                        target=main,
+                        args=(command_list, str(serial_path)),
+                        kwargs={"debug": self.debug},
+                        daemon=True
+                    )
+                    thread.start()
+                    self.serial_threads[str(serial_path)] = (thread, command_list)
+                self._last_serials.update(new_serials)
+
+            # 处理移除的串口
+            if removed_serials := self._last_serials - current_serials:
+                if self.debug:
+                    print(time.time(), "检测到串口设备移除:", removed_serials)
+                for serial_path in removed_serials:
+                    # 从字典中移除对应的线程和命令列表
+                    if str(serial_path) in self.serial_threads:
+                        thread, _ = self.serial_threads.pop(str(serial_path))
+                        # 线程为守护线程，会自动结束
+                self._last_serials.difference_update(removed_serials)
+
+            time.sleep(1)  # 每秒检测一次
 
     def start(self):
         """启动服务器"""
@@ -225,14 +258,12 @@ class SerialServer:
         self._sock.bind(self.socket_path)
         self._sock.listen(1)
 
-        # 启动串口通信线程
-        self._thread = Thread(
-            target=main,
-            args=(self.command_list, self.serial_path),
-            kwargs={"debug": self.debug},
+        # 启动串口检测线程
+        self._detection_thread = Thread(
+            target=self._detect_new_serials,
             daemon=True
         )
-        self._thread.start()
+        self._detection_thread.start()
 
         # 处理客户端连接
         while True:
@@ -245,19 +276,32 @@ class SerialServer:
 
                     # 解析客户端请求
                     req = json.loads(data.decode())
-                    if req["cmd"] == "get_commands":
-                        # 返回当前命令列表
-                        resp = {"commands": self.command_list}
-                    elif req["cmd"] == "add_command":
-                        # 添加新命令
-                        self.command_list.append((req["type"], req["data"]))
-                        resp = {"status": "ok"}
-                    elif req["cmd"] == "stop":
-                        # 停止服务器
-                        resp = {"status": "ok"}
-                        conn.send(json.dumps(resp).encode())
-                        self.stop()
-                        return
+                    match req["cmd"]:
+                        case "get_commands":
+                            # 返回所有串口的命令列表
+                            resp = {
+                                "commands": {
+                                    path: command_list 
+                                    for path, (_, command_list) in self.serial_threads.items()
+                                }
+                            }
+                        case "add_command":
+                            # 添加新命令到指定串口
+                            serial_path = req["serial_path"]
+                            if serial_path in self.serial_threads:
+                                _, command_list = self.serial_threads[serial_path]
+                                command_list.append((req["type"], req["data"]))
+                                resp = {"status": "ok"}
+                            else:
+                                resp = {"status": "error", "message": "串口不存在"}
+                        case "stop":
+                            # 停止服务器
+                            resp = {"status": "ok"}
+                            conn.send(json.dumps(resp).encode())
+                            self.stop()
+                            return
+                        case _:
+                            resp = {"status": "error"}
 
                     conn.send(json.dumps(resp).encode())
             finally:
@@ -290,10 +334,17 @@ class SerialClient:
         """获取当前命令列表"""
         return self._send_request({"cmd": "get_commands"})["commands"]
 
-    def add_command(self, msg_type: int, data: int):
-        """添加新命令"""
+    def add_command(self, serial_path: str, msg_type: int, data: int):
+        """添加新命令
+        
+        Args:
+            serial_path: 串口路径
+            msg_type: 命令类型
+            data: 命令数据
+        """
         return self._send_request({
             "cmd": "add_command",
+            "serial_path": serial_path,
             "type": msg_type,
             "data": data
         })
