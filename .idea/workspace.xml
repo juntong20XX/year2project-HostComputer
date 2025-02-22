@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="将 __init__ 定义的功能移动到了 commander, 添加了串口自发现">
-      <change beforePath="$PROJECT_DIR$/.idea/arm-hc.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/arm-hc.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="72b7830f-b6f9-452c-b162-8db0f571ec9b" name="Changes" comment="fix: `serial_automatic_detection` FileNotFoundError when no serial connected">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/commander.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/commander.py" afterDir="false" />
     </list>
@@ -191,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739877850877</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fix: `serial_automatic_detection` FileNotFoundError when no serial connected">
+      <option name="closed" value="true" />
+      <created>1740231167735</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1740231167735</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,7 +216,8 @@
     <MESSAGE value="测试成功" />
     <MESSAGE value="update gitignore" />
     <MESSAGE value="将 __init__ 定义的功能移动到了 commander, 添加了串口自发现" />
-    <option name="LAST_COMMIT_MESSAGE" value="将 __init__ 定义的功能移动到了 commander, 添加了串口自发现" />
+    <MESSAGE value="fix: `serial_automatic_detection` FileNotFoundError when no serial connected" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: `serial_automatic_detection` FileNotFoundError when no serial connected" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/arm_hc$test_ping_count.coverage" NAME="test-ping_count Coverage Results" MODIFIED="1739127194049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />

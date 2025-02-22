@@ -9,6 +9,7 @@ import json
 import os
 import socket
 import time
+from typing import Optional
 from pathlib import Path
 from threading import Thread
 
@@ -168,13 +169,13 @@ def match_and_call(s: stf.SerialTransfer, command_list: list[(int, str)], debug=
                     command_list.insert(0, (msg_type, data))
 
 
-def main(command_list: list[(int, str)], serial_path='/dev/ttyACM0', debug=False):
+def main(command_list: list[(int, str)], serial_path='/dev/ttyACM0', debug=False, stop_cond: Optional[callable] = None):
     link = stf.SerialTransfer(serial_path)
     try:
         if debug:
             print(time.time(), "main: opening serial port", serial_path)
         link.open()
-        while True:
+        while stop_cond is None or stop_cond():
             match_and_call(link, command_list, debug=debug)
     finally:
         if debug:
@@ -215,10 +216,10 @@ class SerialServer:
 
     def _detect_new_serials(self):
         """检测新的串口设备并启动对应的通信线程，同时关闭已移除的串口"""
-        while True:
+        while self._sock is not None:
             self.serial_mapping = serial_automatic_detection()
             current_serials = set(self.serial_mapping)
-            
+
             # 处理新增的串口
             if new_serials := current_serials - self._last_serials:
                 if self.debug:
@@ -229,7 +230,7 @@ class SerialServer:
                     thread = Thread(
                         target=main,
                         args=(command_list, str(serial_path)),
-                        kwargs={"debug": self.debug},
+                        kwargs={"debug": self.debug, "stop_cond": self.is_alive},
                         daemon=True
                     )
                     thread.start()
@@ -244,7 +245,7 @@ class SerialServer:
                     # 从字典中移除对应的线程和命令列表
                     if str(serial_path) in self.serial_threads:
                         thread, _ = self.serial_threads.pop(str(serial_path))
-                        # 线程为守护线程，会自动结束
+                        # 线程会因为找不到串口因错误结束
                 self._last_serials.difference_update(removed_serials)
 
             time.sleep(1)  # 每秒检测一次
@@ -286,7 +287,7 @@ class SerialServer:
                             # 返回所有串口的命令列表
                             resp = {
                                 "commands": {
-                                    path: command_list 
+                                    path: command_list
                                     for path, (_, command_list) in self.serial_threads.items()
                                 }
                             }
@@ -317,10 +318,14 @@ class SerialServer:
             finally:
                 conn.close()
 
+    def is_alive(self):
+        return self._sock is not None
+
     def stop(self):
         """停止服务器"""
         if self._sock:
             self._sock.close()
+            self._sock = None
         os.unlink(self.socket_path)
 
 
