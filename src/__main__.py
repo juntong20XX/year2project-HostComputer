@@ -4,7 +4,6 @@
 
 from . import start_server_daemon, SerialClient
 
-
 if __name__ == '__main__':
     print("input your Serial path:")
     path = input("[/dev/ttyACM0]:")
@@ -13,7 +12,7 @@ if __name__ == '__main__':
         path = "/dev/ttyACM0"
 
     # 创建并启动服务器
-    server = start_server_daemon(serial_path=path, debug=True)
+    server = start_server_daemon(debug=True)
 
     # 创建客户端
     client = SerialClient()
@@ -23,7 +22,7 @@ if __name__ == '__main__':
             deg = input("a number for moving the servo, other for exit:")
             if deg.isdigit():
                 print("update:", deg)
-                client.add_command(0x0131, int(deg))
+                client.add_command(path, 0x0131, int(deg))
             else:
                 print("exit")
                 server.stop()

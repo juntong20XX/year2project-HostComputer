@@ -182,18 +182,18 @@ def main(command_list: list[(int, str)], serial_path='/dev/ttyACM0', debug=False
         link.close()
 
 
-def serial_automatic_detection() -> set[str]:
+def serial_automatic_detection() -> dict[str, str]:
     """
 
-    :return:
+    :return: {path: id}
     """
-    ret = set()
+    ret = {}
     serial_byid = Path('/dev/serial/by-id')
     serials = os.listdir(serial_byid)
     for serial in serials:
         p = serial_byid / serial
         if p.is_symlink():
-            ret.add(os.path.abspath(serial_byid / os.readlink(p)))
+            ret[os.path.abspath(serial_byid / os.readlink(p))] = serial
     return ret
 
 
@@ -208,11 +208,13 @@ class SerialServer:
         self._sock = None
         self._detection_thread = None
         self._last_serials = set()
+        self.serial_mapping = None
 
     def _detect_new_serials(self):
         """检测新的串口设备并启动对应的通信线程，同时关闭已移除的串口"""
         while True:
-            current_serials = serial_automatic_detection()
+            self.serial_mapping = serial_automatic_detection()
+            current_serials = set(self.serial_mapping)
             
             # 处理新增的串口
             if new_serials := current_serials - self._last_serials:
@@ -285,6 +287,11 @@ class SerialServer:
                                     for path, (_, command_list) in self.serial_threads.items()
                                 }
                             }
+                        case "get_serial_mapping":
+                            # 返回串口映射关系
+                            resp = {
+                                "mapping": self.serial_mapping
+                            }
                         case "add_command":
                             # 添加新命令到指定串口
                             serial_path = req["serial_path"]
@@ -334,13 +341,17 @@ class SerialClient:
         """获取当前命令列表"""
         return self._send_request({"cmd": "get_commands"})["commands"]
 
+    def get_serial_mapping(self):
+        """获取路径和 ID 映射"""
+        return self._send_request({"cmd": "get_serial_mapping"})["mapping"]
+
     def add_command(self, serial_path: str, msg_type: int, data: int):
-        """添加新命令
-        
-        Args:
-            serial_path: 串口路径
-            msg_type: 命令类型
-            data: 命令数据
+        """
+        添加新命令
+        :param serial_path: 串口路径
+        :param msg_type: 命令类型 
+        :param data: 命令数据
+        :rtype: dict
         """
         return self._send_request({
             "cmd": "add_command",
@@ -354,18 +365,15 @@ class SerialClient:
         return self._send_request({"cmd": "stop"})
 
 
-def start_server_daemon(serial_path="/dev/ttyACM0", debug=False, daemon=True) -> SerialServer:
-    """在后台启动串口服务器
-
-    Args:
-        serial_path: 串口路径，默认为 /dev/ttyACM0
-        debug: 是否开启调试模式，默认为 False
-        daemon: 是否在后台运行，默认为 True
-
-    Returns:
-        server: 启动的服务器实例
+def start_server_daemon(debug=False, daemon=True) -> SerialServer:
     """
-    server = SerialServer(serial_path=serial_path, debug=debug)
+    在后台启动串口服务器
+    :param debug: 是否开启调试模式，默认为 False
+    :param daemon: 是否在后台运行，默认为 True
+    :return: 启动的服务器实例
+    :rtype: SerialServer
+    """
+    server = SerialServer(debug=debug)
     server_thread = Thread(target=server.start, daemon=daemon)
     server_thread.start()
     return server
