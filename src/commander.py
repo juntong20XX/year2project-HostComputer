@@ -189,6 +189,9 @@ def serial_automatic_detection() -> dict[str, str]:
     """
     ret = {}
     serial_byid = Path('/dev/serial/by-id')
+    if not serial_byid.is_dir():
+        # 当没有串口连接时, 该目录不存在
+        return ret
     serials = os.listdir(serial_byid)
     for serial in serials:
         p = serial_byid / serial
